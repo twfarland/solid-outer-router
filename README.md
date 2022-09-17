@@ -10,6 +10,8 @@
 ```typescript
 import { setRoutes, route } from "solid-outer-router";
 
+initialize(history);
+
 setRoutes([
   ["/", Home],
   ["/profile/:profileId", Profile]
@@ -25,3 +27,6 @@ export function App() {
   );
 }
 ```
+
+
+

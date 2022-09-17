@@ -1,4 +1,5 @@
 import { createSignal } from 'solid-js';
+import { insert, effect, setAttribute, className, delegateEvents, template } from 'solid-js/web';
 
 // source signals
 const [_location, _setLocation] = createSignal({
@@ -88,4 +89,33 @@ function navigate(url, replace) {
   }
 }
 
-export { initialize, navigate, params, route, setLocation, setRoutes };
+const _tmpl$ = /*#__PURE__*/template(`<a></a>`, 2);
+function Link(p) {
+  return (() => {
+    const _el$ = _tmpl$.cloneNode(true);
+
+    _el$.$$click = event => {
+      event.preventDefault();
+      navigate(p.href, p.replace);
+    };
+
+    insert(_el$, () => p.children);
+
+    effect(_p$ => {
+      const _v$ = p.title,
+            _v$2 = p.class;
+      _v$ !== _p$._v$ && setAttribute(_el$, "title", _p$._v$ = _v$);
+      _v$2 !== _p$._v$2 && className(_el$, _p$._v$2 = _v$2);
+      return _p$;
+    }, {
+      _v$: undefined,
+      _v$2: undefined
+    });
+
+    return _el$;
+  })();
+}
+
+delegateEvents(["click"]);
+
+export { Link, initialize, navigate, params, route, setLocation, setRoutes };
